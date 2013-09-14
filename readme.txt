@@ -16,7 +16,7 @@ Learning :-
 -----------------------------------------------------------------------------
 1. Creating module in javascript
 2. Implemenation of callback funcationalty.
-3. SEO technics ( Not get time implement it completely)
+3. SEO technics ( Not got the  time to implement it completely)
 
 
 code folder
