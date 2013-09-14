@@ -5,6 +5,20 @@ Simple and fast framework to develop good gamification site, quality html to
 rank your website high at Google.
 
 
+Technology Used
+----------------------------------------------------------------------
+PHP
+JQuery
+HTML 5
+MySQL
+
+Learning :-
+-----------------------------------------------------------------------------
+1. Creating module in javascript
+2. Implemenation of callback funcationalty.
+3. SEO technics ( Not get time implement it completely)
+
+
 code folder
 ----------------------------------------------------------------------------
 All the custom code will be placed under the sites folder with domain name as
