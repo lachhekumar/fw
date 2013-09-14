@@ -23,3 +23,32 @@ share the common code.
 
 /config/database.inc.php    
 All the database configuration should be in $__database array
+
+
+$__secure  => make the page accessable after login validation
+
+Event
+---------------------------------------------------------------------
+Every single table access has a  event, that has to be placed in event folder of specific domain
+for example user table can have user.php in the event folder with function
+
+beforeselect();
+onmove()
+beforeinsert()
+afterinsert()
+beforeupdate()
+afterupdate()
+beforedelete()
+afterdelete()
+
+
+controller
+---------------------------------------------------------------------------
+hold the controller for the given url, for url
+product/details.html
+
+product.php from controller will be load and 'product' class is opened
+and detailsAction function is called 
+
+
+

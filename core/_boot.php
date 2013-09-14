@@ -16,7 +16,7 @@
  * @param type $url
  * @return type
  */
-
+define("DEBUG",1);
 function linuxPath($url) {
     return str_replace('\\',"/",$url);
 }
@@ -92,7 +92,9 @@ foreach($_general as $key => $value)  {
     include_once $value;
 }
 
-$_general = glob(domain . "config/*.inc.php");
+
+$_general = glob(domain . "/config/*.inc.php");
+
 foreach($_general as $key => $value)  {
     include_once $value;
 }
@@ -107,4 +109,32 @@ spl_autoload_register(function($class) {
         include_once(core . "/lib/" . $class . ".php"); return true;
     }
     
+    if(file_exists(domain . "/controller/" . $class . ".php")) {
+        include_once(domain . "/controller/" . $class . ".php"); return true;
+    }    
+    
 });
+
+// create object of input class
+$_input = input::instance();
+$_input->post()->get();                        // process post & get value
+
+// check for RAW input of user
+$_rawinput = trim(file_get_contents('php://input',true));
+if($_rawinput != "") { $_input->set((array)json_decode($_rawinput)); }
+
+$__controller =  explode("/",str_replace(".json","",str_replace(".html","",str_replace(".php","",url))));
+if(!isset($__controller[1])) {
+    $__controller = "index";
+}
+$_sec = $__controller[0] . "/" . $__controller[1];
+
+
+if(isset($__secure)) {
+    if(in_array($_sec, $__secure)) {
+        if(!isset($_SESSION["_login"]) || $_SESSION["_login"] == false) {
+            echo "<h1>You cannot accesss this page </h1>";
+            exit;
+        }
+    }
+}
