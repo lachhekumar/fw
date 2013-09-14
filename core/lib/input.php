@@ -64,11 +64,20 @@ final class input {
 
     
     public static function display() {
+        foreach(self::$variable as $key => $value) {
+            if(!is_array($value))
+                self::$variable[$key] = stripslashes($value);
+        }
+        
         return self::$variable;
     }
 
 
     public function __get($name) {
+        
+        if(!is_array(self::$variable[$name]))
+            self::$variable[$name] = stripslashes(self::$variable[$name]);        
+        
         return @self::$variable[$name]?:false;
     }
 

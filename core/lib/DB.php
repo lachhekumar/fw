@@ -400,7 +400,7 @@ class DB {
      * @param type $condition
      */
     public function where($condition) {
-        $this->_where[] = $condition;
+        $this->_where[] = stripslashes($condition);
     }
     
     /**
@@ -419,7 +419,7 @@ class DB {
      * @param type $condition
      */
     public function joins($type,$table,$condition) {
-        $this->_fields[] = $type . " JOIN " . $table . " ON " . $condition;
+        $this->_fields[] = $type . " JOIN " . $table . " ON " . stripslashes($condition);
     }
     
     /**

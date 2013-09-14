@@ -19,7 +19,7 @@ $(function() {
     });
     
     game.clear();
-    game.condition("filename='index'")
+    game.condition('filename="index"')
     game.select("pages",function(response) {
         $(".displaycontent").html(response.result[0].pagecontent);
     });    
