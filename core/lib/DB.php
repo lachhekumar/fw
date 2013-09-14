@@ -236,6 +236,10 @@ class DB {
             
             if(isset($parameter[$value])) {
                   $_fields[] = "`$value`";
+                  
+                  if($value == "password") {
+                      $parameter[$value] = md5($value);
+                  }
                   $_values[] = "'" . addslashes($parameter[$value]). "'";
             }
         }
@@ -288,6 +292,12 @@ class DB {
         foreach($_columns as $key => $value) {
             
             if(isset($parameter[$value])) {
+                
+                  if($value == "password") {
+                      $parameter[$value] = md5($value);
+                  }
+
+                  
                   $_values[] = "`$value` = '" . addslashes($parameter[$value]). "'";
             }
         }
@@ -320,7 +330,7 @@ class DB {
      * @param type $parameter
      * @param type $condition
      */
-    public function delete($table,$parameter,$condition) {
+    public function delete($table,$parameter,$condition = "") {
         $event = $this->loadevent($table);
         
         if(is_object($parameter)) {

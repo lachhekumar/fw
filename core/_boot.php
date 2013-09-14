@@ -115,13 +115,24 @@ spl_autoload_register(function($class) {
     
 });
 
+
+$_general = glob(domain . "/function/*.php");
+
+foreach($_general as $key => $value)  {
+    include_once $value;
+}
+
+
 // create object of input class
 $_input = input::instance();
 $_input->post()->get();                        // process post & get value
 
 // check for RAW input of user
 $_rawinput = trim(file_get_contents('php://input',true));
-if($_rawinput != "") { $_input->set((array)json_decode($_rawinput)); }
+if($_rawinput != "" && json_decode($_rawinput) == "") {
+    parse_str($_rawinput,$__in);
+    $_input->set((array)$__in);
+} else if($_rawinput != "") { $_input->set((array)json_decode($_rawinput)); }
 
 $__controller =  explode("/",str_replace(".json","",str_replace(".html","",str_replace(".php","",url))));
 if(!isset($__controller[1])) {

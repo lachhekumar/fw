@@ -43,6 +43,8 @@ if($__controller[0] == "_model") {
     
     $_model = new model(); 
     
+
+    
     switch($_SERVER["REQUEST_METHOD"]) {
         case "GET":
         case "POST":
@@ -69,7 +71,12 @@ if($__controller[0] == "_model") {
     
     $__output["result"] = $_result;
 
-} else {
+}
+else if($__controller[0] == "_function") {
+    $input = input::instance();
+    $__output["result"] = call_user_func($__controller[1], $input->paramter);
+}
+else {
 
     $__controller[0] = @$__controller[0]?:"index";
     $__controller[1] = @$__controller[1]?:"index";

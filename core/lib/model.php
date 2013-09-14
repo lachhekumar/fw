@@ -26,12 +26,19 @@ class model {
         
         // getting records from the serevr
         $db = new DB;        
+        if(is_array($input->fields)) {
+            
+            foreach($input->fields as $key => $value) {
+                $db->fields($value);
+            }
+        }
+        
         if(is_array($input->join)) {
             
             foreach($input->join as $key => $value) {
                 $db->joins($value["type"], $value["table"], $value["condition"]);
             }
-        }
+        }        
         
         if(is_array($input->where)) {
             foreach($input->where as $key => $value) {
@@ -69,7 +76,7 @@ class model {
         $db = new DB;
         
         $input = input::instance();
-        $db->insert($tablename,$input->parameter);
+        $db->insert($tablename,$input->display());
         return true;
     }    
     
@@ -84,19 +91,48 @@ class model {
             foreach($input->where as $key => $value) {
                 $db->where($value);
             }
-            $db->insert($tablename,$input->parameter);
+            $db->update($tablename,$input->parameter);
         } else {
             
             if(is_object($parameter)) {
                 $parameter = get_object_vars($parameter);
             }
-            $db->insert($tablename,$input->parameter,$db->primary ."='" .addslashes($parameter[$db->primary]). "'");
+            $db->update($tablename,$input->parameter,$db->primary ."='" .addslashes($parameter[$db->primary]). "'");
         }
         
         return true;
         
         
     }    
+    
+    
+    public function delete($tablename) {     
+        
+        $db = new DB;       
+        $input = input::instance();
+        
+        
+        $db->tablecol($tablename);
+        if(is_array($input->where)) {
+            foreach($input->where as $key => $value) {
+                $db->where($value);
+            }
+            $db->delete($tablename,$input->parameter);
+        } else if($input->condition != "") {
+            $db->delete($tablename,$input->parameter,$input->condition);
+        }
+        else {
+            
+            if(is_object($parameter)) {
+                $parameter = get_object_vars($parameter);
+            }
+            $db->delete($tablename,$input->parameter,$db->primary ."='" .addslashes($parameter[$db->primary]). "'");
+        }
+        
+        return true;
+        
+        
+    }        
     
 }
 

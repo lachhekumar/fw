@@ -31,3 +31,19 @@ $_js = str_replace("{url}","http://" .host  .base,$_js);
 $_js = str_replace("{token}",$token->get(),$_js);
 
 echo $_js;
+
+$_function = get_defined_functions();
+foreach($_function["user"] as $key => $value) {
+    echo <<<EOF
+   function $value(options,callback) {
+       game.load({url: '_function/$value.json',data: {parameter: options},callback: callback});
+   }
+   
+
+EOF;
+    
+}
+
+
+
+
