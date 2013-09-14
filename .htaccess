@@ -1,0 +1,14 @@
+RewriteEngine on
+
+#process request for html file
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*)\.html$ core/html.php       [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^$ core/html.php                [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*)\.json$ core/json.php       [QSA,L]
+
