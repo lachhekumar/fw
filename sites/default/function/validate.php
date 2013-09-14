@@ -2,5 +2,10 @@
 
 
 function validateusername($username) {
-    return "testing";
+    
+    $db = new DB;
+
+    $db->where("username='$username'");
+    $db->select("users");
+    return $db->count();
 }

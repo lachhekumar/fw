@@ -74,7 +74,15 @@ if($__controller[0] == "_model") {
 }
 else if($__controller[0] == "_function") {
     $input = input::instance();
-    $__output["result"] = call_user_func($__controller[1], $input->paramter);
+    $__output["result"] = call_user_func_array($__controller[1], $input->parameter);
+}
+else if($__controller[0] == "_track") {
+    $input = input::instance();
+    
+    $db = new DB;
+    $db->query("select *,NOW() as currentdate from _track where updatedate > '" . $input->date."';");
+    $__output["result"] = $db->fetchAll();
+    
 }
 else {
 

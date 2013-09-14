@@ -150,7 +150,7 @@ class DB {
         }
         $_row = $this->result->fetch(PDO::FETCH_OBJ);
         
-        if($this->table != "") {
+        if(isset($this->table) && $this->table != "") {
             
             $this->loadevent($this->table);
             if(class_exists("Tbl" . $this->table)) {
@@ -256,6 +256,14 @@ class DB {
             }
         }
         
+        $db = new DB;
+        $db->query("select * from _track  where site_id='" .site_id. "' and tablename='$table'");
+        if($db->count() < 1) {
+            $db->query("INSERT _track(site_id,tablename,updatedate) VALUES(" .site_id. ",'$table',NOW())");
+        }
+        $db->query("update _track  set updatedate=NOW() where site_id='" .site_id. "' and tablename='$table'");
+        
+        
         return $this->link->lastInsertId();        
     }
 
@@ -321,6 +329,17 @@ class DB {
             }
         }
         
+        
+        $db = new DB;
+        $db->query("select * from _track  where site_id='" .site_id. "' and tablename='$table'");
+        if($db->count() < 1) {
+            $db->query("INSERT _track(site_id,tablename,updatedate) VALUES(" .site_id. ",'$table',NOW())");
+        }
+        $db->query("update _track  set updatedate=NOW() where site_id='" .site_id. "' and tablename='$table'");
+        
+
+      
+        
         return true;          
     }
     
@@ -364,6 +383,14 @@ class DB {
             }
         }
         
+        $db = new DB;
+        $db->query("select * from _track  where site_id='" .site_id. "' and tablename='$table'");
+        if($db->count() < 1) {
+            $db->query("INSERT _track(site_id,tablename,updatedate) VALUES(" .site_id. ",'$table',NOW())");
+        }
+        $db->query("update _track  set updatedate= NOW() where site_id='" .site_id. "' and tablename='$table'");
+        
+        
         return true;          
         
     }
@@ -400,8 +427,8 @@ class DB {
      * @param type $field
      * @param type $type
      */
-    public function orderby($field,$type = "ASC") {
-        $this->_orderby[] = $field . " " . $type;
+    public function orderby($field) {
+        $this->_orderby[] = $field;
     }
     
     /**

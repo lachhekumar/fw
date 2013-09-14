@@ -26,9 +26,14 @@ if($db->count() < 1) {
 }
 
 
+$db = new DB;
+$db->query("SELECT NOW() as date1");
+$_r = $db->fetch();
+
 $_js = (samehost != 1)?str_replace("{callback}","?callback=?",$_js):str_replace("{callback}","",$_js);
 $_js = str_replace("{url}","http://" .host  .base,$_js);
 $_js = str_replace("{token}",$token->get(),$_js);
+$_js = str_replace("{now}",$_r->date1,$_js);
 
 echo $_js;
 

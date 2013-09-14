@@ -1,4 +1,6 @@
 // game will hold the gamification struture and othere details
+$__currentdate = "{now}";
+_callbackm      = [];
 game = {
     
     
@@ -17,7 +19,32 @@ game = {
     _join : Array(),
     _operation : Array(),
     _total: 0,    
+    _callbackm: [],
     
+    
+    refresh: function($tablename,callback) {
+        _callbackm[$tablename] = callback;
+    },
+    
+    reload: function() {
+        this.load({
+            url: "_track/index.json",
+            data: {date: $__currentdate},
+            callback: $.proxy(function(response) {
+                if(response.result.length > 0) {
+                    $__currentdate = response.result[0].currentdate;
+                    
+                    for($count = 0;$count < response.result.length;$count++) {
+                        _callbackm[response.result[$count].tablename]();
+                    }
+                }
+                
+                setTimeout(function() {
+                    game.reload();
+                },10000);
+            },this)
+        });        
+    },
     
     clear: function() {
         this._fields= new Array();           // Stores the field details
@@ -189,4 +216,10 @@ game = {
     
     
 };
+
+
+$(function () {
+    game.reload();
+})
+
 
